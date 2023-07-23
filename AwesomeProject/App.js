@@ -4,8 +4,10 @@ import { useFonts } from 'expo-font';
 
 import Avatar from './Screens/img/Userphoto.png'
 import Add from './Screens/img/add.jpg'
+import { useState } from 'react';
 
 export default function App() {
+  const [isShowKeyboard, setIsShowKeyboard ]=useState(false)
 
   const [fontsLoaded] = useFonts({
     'Roboto-Medium': require('./Screens/fonts/Roboto-Medium.ttf'),
@@ -15,8 +17,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ImageBackground style={styles.bgImage} source={require("./Screens/img/PhotoBGpng.png")}>
-
-        <View style={styles.registrationSection}>
+        <View style={{ ...styles.registrationSection, paddingBottom: isShowKeyboard ? 40 : 200 }}>
         <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
           <Image source={Avatar} style={styles.avatar}/>
           <Image source={Add} style={styles.addAvatar}/>
@@ -30,6 +31,7 @@ export default function App() {
               autoFocus={true}
               textContentType="username"
               autoCompleteType="on"
+              onFocus={() => setIsShowKeyboard(true)}
             />
             
             <TextInput
@@ -39,7 +41,7 @@ export default function App() {
               keyboardType="email-address"
               textContentType="username"
               autoCompleteType="on"
-    
+              onFocus={() => setIsShowKeyboard(true)}
             />
             <TextInput
               style={styles.input}
@@ -49,6 +51,7 @@ export default function App() {
               secureTextEntry={true}
               textContentType="username"
               autoCompleteType="off"
+              onFocus={() => setIsShowKeyboard(true)}
             />
         </View>
           <Text style={styles.showPassword}>Показати</Text>
@@ -75,16 +78,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   bgImage: {
+    position: "relative",
     flex: 1, 
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center"
   },
   registrationSection: {
     position: 'absolute',
-    top: 280,
     width: '100%',
-    height: 700,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: '#FFFFFF',
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
+
   avatar:{
     position: 'absolute',
     backgroundColor: '#F6F6F6',
