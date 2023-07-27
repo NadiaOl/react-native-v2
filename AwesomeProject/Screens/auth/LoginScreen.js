@@ -7,7 +7,7 @@ const initialState = {
 email: "",
 password: "",
 }
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
 const [isShowKeyboard,setIsShowKeyboard]= useState(false)
 const [state, setState]=useState(initialState)
 
@@ -57,11 +57,11 @@ return (
                         </View>
                     </KeyboardAvoidingView>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={keyboardHide}>
+                <TouchableOpacity style={styles.button} onPress={()=> {keyboardHide(); navigation.navigate("Posts")}}>
                     <Text style={styles.buttonText}>Увійти</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.signIn} onPress={keyboardHide}>
+                <TouchableOpacity style={styles.signIn} onPress={()=> {keyboardHide(); navigation.navigate("Register")}}>
                     <Text>Немає акаунту? 
                         <Text style={styles.signInSpan}>Зареєструватися</Text>
                     </Text>

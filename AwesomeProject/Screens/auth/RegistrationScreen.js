@@ -10,7 +10,7 @@ name: "",
 email: "",
 password: "",
 }
-export default function RegistrationScreen() {
+export default function RegistrationScreen({navigation}) {
 const [isShowKeyboard,setIsShowKeyboard]= useState(false)
 const [state, setState]=useState(initialState)
 
@@ -71,11 +71,11 @@ return (
                         </View>
                     </KeyboardAvoidingView>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={keyboardHide}>
+                <TouchableOpacity style={styles.button} onPress={()=> {keyboardHide(); navigation.navigate("Login")}} >
                     <Text style={styles.buttonText}>Зареєстуватися</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.signIn} onPress={keyboardHide}>
+                <TouchableOpacity style={styles.signIn} onPress={()=> {keyboardHide(); navigation.navigate("Login")}}>
                     <Text>Вже є акаунт? Увійти</Text>
                 </TouchableOpacity>
 

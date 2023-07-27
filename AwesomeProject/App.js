@@ -2,16 +2,11 @@
 import { StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
-
-import RegistrationScreen from './Screens/auth/RegistrationScreen';
-import LoginScreen from './Screens/auth/LoginScreen';
-
-const AuthStack = createStackNavigator();
+import { NavigationContainer, useRoute } from "@react-navigation/native";
+import { Home } from './Home';
 
 export default function App() {
-
+  const routing = Home(null);
   const [fontsLoaded] = useFonts({
     'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
     'Roboto-Bolt': require('./assets/fonts/Roboto-Bold.ttf'),
@@ -20,10 +15,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <AuthStack.Navigator>
-        <AuthStack.Screen name="Register" component={RegistrationScreen} />
-        <AuthStack.Screen name="Login" component={LoginScreen} />
-      </AuthStack.Navigator>
+      {routing}
     </NavigationContainer>
   );
 }

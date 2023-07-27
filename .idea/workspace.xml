@@ -7,19 +7,10 @@
     <list default="true" id="19735447-e3d5-40df-9679-cf1235947e09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/fonts/Roboto-Bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/fonts/Roboto-Medium.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/fonts/Roboto-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/img/Content.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/img/PhotoBGpng.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/img/Rectangle.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/img/Userphoto.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/img/add.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/img/forest.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/img/makePhoto.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/auth/LoginScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/auth/LoginScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/auth/RegistrationScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/auth/RegistrationScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
