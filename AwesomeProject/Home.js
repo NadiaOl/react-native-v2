@@ -14,6 +14,19 @@ const MainTab = createBottomTabNavigator();
 
 export const Home = (isAuth) => {
 
+    const centerTabBarIcon = (name, size, focused) => {
+
+        return (
+            <View style={styles.mainButton}>
+                <Ionicons
+                    name={name}
+                    size={size}
+                    style={[styles.icon]}
+                />
+            </View>
+        );
+    };
+
     const renderTabBarIcon = (name, size, focused) => {
         const iconColor = focused ? "#FF6C00" : "gray";
     
@@ -47,11 +60,8 @@ export const Home = (isAuth) => {
                     renderTabBarIcon("grid-outline", 24, focused),}} 
                     name="Posts" component={PostsScreen} />
                 <MainTab.Screen options={{headerShown: false,
-                    tabBarStyle: { display: "none" },
-                    tabBarIcon: ({ focused }) => {
-                        <View style={styles.mainButton}>
-                            <Ionicons name="add-outline" size={24} style={styles.icon} />
-                        </View>},}}
+                    tabBarIcon: ({ focused }) =>
+                    centerTabBarIcon("add-outline", 24, focused),}} 
                     name="Create" component={CreatePostsScreen} />
                 <MainTab.Screen  options={{headerShown: false,
                     tabBarIcon: ({ focused }) =>
@@ -84,7 +94,8 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 24,
         top: 7,
-        color: "#fff",
+        color: "#FFFFFF",
+
     },
 });
 

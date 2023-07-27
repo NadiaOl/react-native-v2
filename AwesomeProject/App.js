@@ -6,7 +6,7 @@ import { NavigationContainer, useRoute } from "@react-navigation/native";
 import { Home } from './Home';
 
 export default function App() {
-  const routing = Home(null);
+  const routing = Home({});
   const [fontsLoaded] = useFonts({
     'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
     'Roboto-Bolt': require('./assets/fonts/Roboto-Bold.ttf'),
