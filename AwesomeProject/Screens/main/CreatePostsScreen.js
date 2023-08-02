@@ -70,9 +70,16 @@ const keyboardHide =() => {
     };
 
     const sendPhoto = () => {
-        navigation.navigate("Posts", {photo, comment, locationName});
+        navigation.navigate("DefaultScreen", {photo, comment, locationName});
         setLocation([]);
         setPhoto('');
+        setComment('');
+        setLocationName('');
+        setIsShowKeyboard(false);
+    }
+    const deletePhoto = () => {
+        setPhoto('');
+        setLocation([]);
         setComment('');
         setLocationName('');
         setIsShowKeyboard(false);
@@ -82,6 +89,9 @@ const keyboardHide =() => {
         <TouchableWithoutFeedback onPress={keyboardHide}>
     <View style={styles.container}>
         <View style={styles.header}>
+            <TouchableOpacity style={styles.logArrow} >
+                <Ionicons name="arrow-back-outline" size={24} onPress={() => navigation.goBack()} />
+            </TouchableOpacity>
             <Text style={styles.title}>Створити публікацію</Text>
         </View>
         <View style={styles.cameraContainer}>
@@ -117,20 +127,26 @@ const keyboardHide =() => {
                 value={locationName}
                 onChangeText={(value) => setLocationName(value)}
             />
-            <TouchableOpacity style={{...styles.locationIcon, marginBottom: isShowKeyboard ? 16 : 32}}>
+            <TouchableOpacity style={{...styles.locationIcon, marginBottom: isShowKeyboard ? 12 : 32}}>
             <Ionicons name="location-outline" size={24} style={styles.logLocation} onPress={() =>
                 navigation.navigate("Map", {location})}/>
             </TouchableOpacity>
         </KeyboardAvoidingView>
-        {photo &&         
-        <Text style={styles.buttonActive} onPress={sendPhoto}>
+        <TouchableOpacity onPress={sendPhoto}>
+            {photo ?         
+            <Text style={styles.buttonActive}>
+                Опублікувати
+            </Text> :
+            <Text style={styles.button}>
             Опублікувати
-        </Text>}
-
-        {!photo && <Text style={styles.button} onPress={sendPhoto}>
-            Опублікувати
-        </Text> }
-        <Ionicons name="trash-outline" size={24} style={styles.logTrash} />
+        </Text>
+        }
+        </TouchableOpacity>
+        <TouchableOpacity onPress={deletePhoto}>
+        {photo ?  
+            <Ionicons name="trash-outline" size={24} style={styles.logTrashActive} /> :
+            <Ionicons name="trash-outline" size={24} style={styles.logTrash} />}
+        </TouchableOpacity>
     </View>
     </TouchableWithoutFeedback>
     );
@@ -142,17 +158,34 @@ const styles = StyleSheet.create({
         position: "relative",
         fontFamily: "Roboto-Regular",
         padding: 16,
-        marginTop: 44,
+        paddingTop: 40,
         width: 390,
         height: 760,
         backgroundColor: "white",
+    },
+    header: {    
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        marginTop: 30,
+        borderBottomWidth: 1,
+        paddingBottom: 11,
+        borderColor: '#BDBDBD'
+    },
+    logArrow: {
+        color: 'rgba(33, 33, 33, 0.8)',
+        position: 'absolute',
+
+        left: 20,
     },
 
     camera: {
         height: 240,
         borderRadius: 8,
         borderWidth: 1,
-        backgroundColor: "grey",
+        marginTop: 30,
+        backgroundColor: "#212121",
     },
 
     logCamera: {
@@ -283,5 +316,15 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
 
-
+    logTrashActive: {
+        height: 50,
+        width: 80,
+        backgroundColor: "#FF6C00",
+        alignSelf: "center",
+        color: "#FFFFFF",
+        borderRadius: 100,
+        padding: 12,
+        textAlign: "center",
+        marginTop: 30,
+    },
 });
