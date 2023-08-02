@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Camera } from "expo-camera";
@@ -17,6 +17,16 @@ export default function CreatePostsScreen() {
     const navigation = useNavigation();
     
     const [hasPermission, setHasPermission] = useState(null);
+
+
+    const [isShowKeyboard,setIsShowKeyboard]= useState(false)
+
+
+const keyboardHide =() => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+
+}
 
     useEffect(() => {
         (async () => {
@@ -60,29 +70,33 @@ export default function CreatePostsScreen() {
     };
 
     const sendPhoto = () => {
-        navigation.navigate("Posts", {photo});
-        // setLocation();
-        // setPhoto();
+        navigation.navigate("Posts", {photo, comment, locationName});
+        setLocation([]);
+        setPhoto('');
+        setComment('');
+        setLocationName('');
+        setIsShowKeyboard(false);
     }
 
     return (
+        <TouchableWithoutFeedback onPress={keyboardHide}>
     <View style={styles.container}>
         <View style={styles.header}>
             <Text style={styles.title}>Створити публікацію</Text>
         </View>
         <View style={styles.cameraContainer}>
-            <Camera style={styles.camera} ref={setCamera}>
+            <Camera style={{...styles.camera, height: isShowKeyboard ? 120 : 240}} ref={setCamera}>
                 {photo && 
                     <View style={styles.photoContainer}>
                         <Image style={styles.photo} source={{ uri: photo }} />
                     </View>
                 }
-                <TouchableOpacity style={styles.cameraButton} onPress={takePhoto}>
-                    <Ionicons name="camera-outline" size={24} style={styles.logCamera} />
+                <TouchableOpacity onPress={takePhoto}>
+                    <Ionicons name="camera-outline" size={24} style={{...styles.logCamera, marginTop: isShowKeyboard ? 30 : 90}} />
                 </TouchableOpacity>
             </Camera>
         </View>
-        <Text style={styles.editPhoto}>Редагувати фото</Text>
+        <Text style={{...styles.editPhoto, marginBottom: isShowKeyboard ? 12 : 32}}>Редагувати фото</Text>
 
         <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -91,6 +105,7 @@ export default function CreatePostsScreen() {
                 style={styles.input}
                 placeholderTextColor={"#BDBDBD"}
                 placeholder="Назва..."
+                onFocus={() => setIsShowKeyboard(true)}
                 value={comment}
                 onChangeText={(value) => setComment(value)}
             />
@@ -98,10 +113,11 @@ export default function CreatePostsScreen() {
                 style={styles.inputLocation}
                 placeholderTextColor={"#BDBDBD"}
                 placeholder="Місцевість..."
+                onFocus={() => setIsShowKeyboard(true)}
                 value={locationName}
                 onChangeText={(value) => setLocationName(value)}
             />
-            <TouchableOpacity style={styles.locationIcon}>
+            <TouchableOpacity style={{...styles.locationIcon, marginBottom: isShowKeyboard ? 16 : 32}}>
             <Ionicons name="location-outline" size={24} style={styles.logLocation} onPress={() =>
                 navigation.navigate("Map", {location})}/>
             </TouchableOpacity>
@@ -116,6 +132,7 @@ export default function CreatePostsScreen() {
         </Text> }
         <Ionicons name="trash-outline" size={24} style={styles.logTrash} />
     </View>
+    </TouchableWithoutFeedback>
     );
 }
 
@@ -219,6 +236,7 @@ const styles = StyleSheet.create({
     },
     locationIcon: {
         position: "relative",
+        marginBottom: 32,
     },
 
 
@@ -232,8 +250,7 @@ const styles = StyleSheet.create({
     button: {
         height: 50,
         width: "100%",
-        marginTop: 27,
-        marginBottom: 100,
+
         backgroundColor: "#F6F6F6",
         color: "#BDBDBD",
         borderRadius: 100,
@@ -244,8 +261,7 @@ const styles = StyleSheet.create({
     buttonActive: {
         height: 50,
         width: "100%",
-        marginTop: 27,
-        marginBottom: 100,
+
         backgroundColor: "#FF6C00",
         color: "#FFFFFF",
         borderRadius: 100,
@@ -264,6 +280,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         padding: 12,
         textAlign: "center",
+        marginTop: 30,
     },
 
 

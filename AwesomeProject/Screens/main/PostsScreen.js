@@ -43,7 +43,7 @@ const PostsScreen = ({route}) => {
               source={{ uri: item.photo }}
               style={{ width: 380, height: 240 }}
             />
-            <Text style={styles.descriptionText}>Ліс</Text>
+            <Text style={styles.descriptionText}>{item.comment}</Text>
             <View style={styles.details}>
               <View style={styles.reactions} >
                 <Ionicons name="chatbubble" size={25} style={styles.commentsIcon} />
@@ -51,7 +51,7 @@ const PostsScreen = ({route}) => {
               </View>
               <View style={styles.location}>
                 <Ionicons name="location-outline" size={24} style={styles.logLocation} />
-                <Text style={styles.locationText}>Ukraine</Text>
+                <Text style={styles.locationText}>{item.locationName}</Text>
               </View>
             </View>
           </View>
@@ -126,6 +126,7 @@ details: {
   marginTop: 8,
   width: 350,
   justifyContent: "space-between",
+
   marginBottom: 32,
   
 },
@@ -134,11 +135,14 @@ reactions: {
   display: 'flex',
   flexDirection: 'row',
   gap: 10,
+  alignItems: 'center',
 },
 
 location: {
   display: 'flex',
   flexDirection: 'row',
+  gap: 10,
+  alignItems: 'center',
 },
 
 commentsIcon: {
@@ -151,6 +155,9 @@ likeIcon: {
 
 locationText: {
   textDecorationLine: 'underline',
+},
+logLocation: {
+  color: '#BDBDBD'
 },
 
 });

@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/main/CreatePostsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/main/CreatePostsScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/main/PostsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/main/PostsScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/nested/MapScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/nested/MapScreen.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
