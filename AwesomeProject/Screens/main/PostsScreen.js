@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from "react-native";
 import UserPhoto from '../../assets/img/Userphoto.png'
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -45,14 +45,14 @@ const PostsScreen = ({route}) => {
             />
             <Text style={styles.descriptionText}>{item.comment}</Text>
             <View style={styles.details}>
-              <View style={styles.reactions} >
+              <TouchableOpacity style={styles.reactions} >
                 <Ionicons name="chatbubble" size={25} style={styles.commentsIcon} />
                 <Text>8</Text>
-              </View>
-              <View style={styles.location}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.location}>
                 <Ionicons name="location-outline" size={24} style={styles.logLocation} />
                 <Text style={styles.locationText}>{item.locationName}</Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
       )}/>
