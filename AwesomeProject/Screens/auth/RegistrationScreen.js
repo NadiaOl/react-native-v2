@@ -4,6 +4,10 @@ import { ImageBackground, StyleSheet, Text, TextInput, View, Image, KeyboardAvoi
 import Avatar from '../../assets/img/Userphoto.png'
 import Add from '../../assets/img/add.jpg'
 import { useState } from 'react';
+import {authSignUpUser} from "../../redux/auth/authOperations";
+
+import {useDispatch} from "react-redux"
+
 
 const initialState = {
 name: "",
@@ -13,13 +17,22 @@ password: "",
 export default function RegistrationScreen({navigation}) {
 const [isShowKeyboard,setIsShowKeyboard]= useState(false)
 const [state, setState]=useState(initialState)
+const [showPassword, setShowPassword]=useState(true)
 
-const keyboardHide =() => {
-    setIsShowKeyboard(false);
+const dispatch = useDispatch()
+
+const keyboardHide =()=> {
     Keyboard.dismiss();
-    setState(initialState);
-    console.log(state)
+    setIsShowKeyboard(false);
 }
+
+const handleSubmit =() => {
+    keyboardHide()
+    dispatch(authSignUpUser(state));
+    setState(initialState);
+}
+
+
 
 return (
 <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -60,22 +73,22 @@ return (
                             placeholderTextColor={'#BDBDBD'}
                             placeholder="Пароль"
                             keyboardType="number-pad"
-                            secureTextEntry={true}
+                            secureTextEntry={showPassword}
                             value={state.password}                  
                             autoCompleteType="off"
                             onFocus={() => setIsShowKeyboard(true)}
                             onChangeText={(value) => setState((prevState) => ({...prevState, password: value}))}
                             />
             
-                            <Text style={styles.showPassword}>Показати</Text>
+                            <Text style={styles.showPassword} onPress={()=>{setShowPassword(!showPassword)}} >Показати</Text>
                         </View>
                     </KeyboardAvoidingView>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={()=> {keyboardHide(); navigation.navigate("Login")}} >
+                <TouchableOpacity style={styles.button} onPress={()=> {handleSubmit(); navigation.navigate("Login")}} >
                     <Text style={styles.buttonText}>Зареєстуватися</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.signIn} onPress={()=> {keyboardHide(); navigation.navigate("Login")}}>
+                <TouchableOpacity style={styles.signIn} onPress={()=> {handleSubmit(); navigation.navigate("Login")}}>
                     <Text>Вже є акаунт? Увійти</Text>
                 </TouchableOpacity>
 

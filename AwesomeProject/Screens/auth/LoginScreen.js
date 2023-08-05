@@ -3,6 +3,9 @@ import { ImageBackground, StyleSheet, Text, TextInput, View, KeyboardAvoidingVie
 
 import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import {authSignInUser} from "../../redux/auth/authOperations"
+
 const initialState = {
 email: "",
 password: "",
@@ -10,12 +13,18 @@ password: "",
 export default function LoginScreen({navigation}) {
 const [isShowKeyboard,setIsShowKeyboard]= useState(false)
 const [state, setState]=useState(initialState)
+const [showPassword, setShowPassword]=useState(true)
+const dispatch = useDispatch()
 
-const keyboardHide =() => {
-    setIsShowKeyboard(false);
+const keyboardHide =()=> {
     Keyboard.dismiss();
+    setIsShowKeyboard(false);
+}
+
+const handleSubmit =() => {
+    keyboardHide()
+    dispatch(authSignInUser(state));
     setState(initialState);
-    console.log(state)
 }
 
 return (
@@ -46,22 +55,22 @@ return (
                             placeholderTextColor={'#BDBDBD'}
                             placeholder="Пароль"
                             keyboardType="number-pad"
-                            secureTextEntry={true}
+                            secureTextEntry={showPassword}
                             value={state.password}                  
                             autoCompleteType="off"
                             onFocus={() => setIsShowKeyboard(true)}
                             onChangeText={(value) => setState((prevState) => ({...prevState, password: value}))}
                             />
             
-                            <Text style={styles.showPassword}>Показати</Text>
+                            <Text style={styles.showPassword} onPress={()=>{setShowPassword(!showPassword)}} >Показати</Text>
                         </View>
                     </KeyboardAvoidingView>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={()=> {keyboardHide(); navigation.navigate("Posts")}}>
+                <TouchableOpacity style={styles.button} onPress={()=> {handleSubmit(); navigation.navigate("Posts")}}>
                     <Text style={styles.buttonText}>Увійти</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.signIn} onPress={()=> {keyboardHide(); navigation.navigate("Register")}}>
+                <TouchableOpacity style={styles.signIn} onPress={()=> {handleSubmit(); navigation.navigate("Register")}}>
                     <Text>Немає акаунту? 
                         <Text style={styles.signInSpan}>Зареєструватися</Text>
                     </Text>

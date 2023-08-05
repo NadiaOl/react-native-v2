@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from "react-native";
 import UserPhoto from '../../assets/img/Userphoto.png'
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { authSignOutUser } from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 
 const DefaultScreenPosts = ({route, navigation}) => {
+    const dispatch=useDispatch()
+    
     console.log('route.params', route.params)
 
     const [posts, setPosts] = useState([])
@@ -16,11 +20,17 @@ const DefaultScreenPosts = ({route, navigation}) => {
 
     console.log("posts", posts);
 
+const signOut =()=> {
+    dispatch(authSignOutUser());
+}
+
 return (
     <View style={styles.container}>
         <View style={styles.header}>             
             <Text style={styles.title}>Публікації</Text>
-            <Ionicons name="log-out-outline" size={24} style={styles.logOut} />
+            <TouchableOpacity style={styles.logOut}>
+                <Ionicons name="log-out-outline" size={24}  onPress={signOut} />
+            </TouchableOpacity>
         </View>
         <View style={styles.userSection}>
             <Image source={UserPhoto} style={styles.userPhoto}/>
