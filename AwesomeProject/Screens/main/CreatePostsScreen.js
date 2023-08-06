@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from "react";
+import {useSelector} from "react-redux";
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
+import db from "../../firebase/config"
 
 export default function CreatePostsScreen() {
     const [camera, setCamera] = useState(null);
     const [photo, setPhoto] = useState("");
     const [location, setLocation] = useState([]);
-
     const [comment, setComment] = useState("");
     const [locationName, setLocationName] = useState("");
+    const [hasPermission, setHasPermission] = useState(null);
+    const [isShowKeyboard,setIsShowKeyboard]= useState(false)
+    const {userId, name} = useSelector((state) => state.auth)
 
     const navigation = useNavigation();
-    
-    const [hasPermission, setHasPermission] = useState(null);
-
-
-    const [isShowKeyboard,setIsShowKeyboard]= useState(false)
-
 
 const keyboardHide =() => {
     setIsShowKeyboard(false);
@@ -55,6 +53,8 @@ const keyboardHide =() => {
     }
 
     const takePhoto = async () => {
+        console.log('comment', comment);
+        console.log('location', location);
         if (camera) {
             const photo = await camera.takePictureAsync();
             setPhoto(photo.uri);
@@ -67,16 +67,19 @@ const keyboardHide =() => {
         setLocation(coords);
         console.log('photo', photo)
         console.log('location', location)
+
     };
 
     const sendPhoto = () => {
-        navigation.navigate("DefaultScreen", {photo, comment, locationName});
+        uploadPostToServer()
+        navigation.navigate("DefaultScreen", {photo, comment, locationName, location});
         setLocation([]);
         setPhoto('');
         setComment('');
         setLocationName('');
         setIsShowKeyboard(false);
     }
+
     const deletePhoto = () => {
         setPhoto('');
         setLocation([]);
@@ -84,6 +87,32 @@ const keyboardHide =() => {
         setLocationName('');
         setIsShowKeyboard(false);
     }
+
+    const uploadPostToServer = async () => {
+        const photo = await uploadPhotoToServer();
+        const createPost = await db
+            .firestore()
+            .collection("posts")
+            .add({ photo, comment, locationName, location: location.coords, userId, name });
+        };
+    
+        const uploadPhotoToServer = async () => {
+        const response = await fetch(photo);
+        const file = await response.blob();
+    
+        const uniquePostId = Date.now().toString();
+    
+        await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+    
+        const processedPhoto = await db
+            .storage()
+            .ref("postImage")
+            .child(uniquePostId)
+            .getDownloadURL();
+    
+        return processedPhoto;
+        };
+
 
     return (
         <TouchableWithoutFeedback onPress={keyboardHide}>
