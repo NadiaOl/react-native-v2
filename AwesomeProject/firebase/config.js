@@ -2,6 +2,8 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/firestore";
 
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyBS6GVR6EPT5s8pgFTZbnyJqvoAluqSTsA",
   authDomain: "react-native-v2-aebb3.firebaseapp.com",
@@ -13,3 +15,4 @@ const firebaseConfig = {
 };
 
 export default firebase.initializeApp(firebaseConfig);
+

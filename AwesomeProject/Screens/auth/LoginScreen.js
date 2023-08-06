@@ -66,7 +66,7 @@ return (
                         </View>
                     </KeyboardAvoidingView>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={()=> {handleSubmit(); navigation.navigate("Posts")}}>
+                <TouchableOpacity style={styles.button} onPress={()=> {handleSubmit()}}>
                     <Text style={styles.buttonText}>Увійти</Text>
                 </TouchableOpacity>
 
