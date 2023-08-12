@@ -30,6 +30,7 @@ const handleSubmit =() => {
     keyboardHide()
     dispatch(authSignUpUser(state));
     setState(initialState);
+    console.log('state', state)
 }
 
 

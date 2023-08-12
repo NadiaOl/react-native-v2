@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+// import MapView, { Marker } from "react-native-maps";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const MapScreen = ({navigation}) => (
@@ -11,7 +11,7 @@ const MapScreen = ({navigation}) => (
             </TouchableOpacity>
             <Text style={styles.title}>Мапа</Text>
         </View>
-    <MapView
+    {/* <MapView
       style={{ flex: 1 }}
       initialRegion={{
         latitude: 50.516339,
@@ -24,7 +24,7 @@ const MapScreen = ({navigation}) => (
         coordinate={{ latitude: 50.516339, longitude: 30.602185 }}
         title="travel photo"
       />
-    </MapView>
+    </MapView> */}
   </View>
 );
 

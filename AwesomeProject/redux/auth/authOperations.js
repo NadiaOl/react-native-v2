@@ -1,5 +1,5 @@
 import { authSlice } from "./authReducer";
-import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from "firebase/auth";
 
 export const authSignUpUser = ({ email, password, name }) => async (
     dispatch,
@@ -7,23 +7,29 @@ export const authSignUpUser = ({ email, password, name }) => async (
 ) => {
     try {
         const auth = getAuth();
-        const user = await createUserWithEmailAndPassword(auth, email, password)
+        await createUserWithEmailAndPassword(auth, email, password);
+        const user = auth.currentUser;
 
-    await user.updateProfile({
-        displayName: name,
-    });
+        console.log('user', user.email)
 
-    const userUpdateProfile = {
-        name: user.displayName,
-        userId: user.uid,
-        stateChange: true,
-    };
+        await updateProfile(auth.currentUser, {
+            displayName: name,
+        })
+
+// const {uid, displayName} = await auth.currentUser;
+
+const userUpdateProfile = await {
+    name: user.displayName,
+    email: user.email,
+    userId: user.uid,
+    stateChange: true,
+};
+
+    console.log('userUpdateProfile', userUpdateProfile)
 
     dispatch(authSlice.actions.updateUserProfile(userUpdateProfile));
 
     } catch (error) {
-    console.log("error", error);
-
     console.log("error.message", error.message);
     }
 };
@@ -37,8 +43,6 @@ export const authSignInUser = ({ email, password }) => async (
         const user = await signInWithEmailAndPassword(auth, email, password)
     console.log("user", user);
     } catch (error) {
-    console.log("error", error);
-    console.log("error.code", error.code);
     console.log("error.message", error.message);
     }
 };
@@ -55,6 +59,7 @@ export const authStateCahngeUser = () => async (dispatch, getState) => {
         if (user) {
             const userUpdateProfile = {
                 name: user.displayName,
+                email: user.email,
                 userId: user.uid,
             };
 

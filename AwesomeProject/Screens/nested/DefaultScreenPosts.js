@@ -4,21 +4,33 @@ import UserPhoto from '../../assets/img/Userphoto.png'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
+import {useSelector} from "react-redux";
+import { collection, onSnapshot } from "firebase/firestore";
+import {db} from "../../firebase/config"
 
-const DefaultScreenPosts = ({route, navigation, state}) => {
+const DefaultScreenPosts = ({navigation}) => {
     const dispatch=useDispatch()
-    
-    console.log('state', state)
+    const {name, email} = useSelector((state) => state.auth)
+
 
     const [posts, setPosts] = useState([])
 
-    useEffect(() => {
-    if (route.params) {
-        setPosts((prevState) => [...prevState, route.params]);
+    const getAllPosts = async () => {
+        const allPosts = await onSnapshot(
+            collection(db, "posts"), 
+            (data) => {
+                setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            },
+            (error) => {
+             console.log(error)
+            });
     }
-    }, [route.params]);
 
-    // console.log("posts", posts);
+
+    useEffect(() => {
+        getAllPosts()
+    }, [posts]);
+
 
 const signOut =()=> {
     dispatch(authSignOutUser());
@@ -35,8 +47,8 @@ return (
         <View style={styles.userSection}>
             <Image source={UserPhoto} style={styles.userPhoto}/>
             <View style={styles.userInfo}>            
-                <Text style={styles.userName}>Natali Romanova</Text>
-                <Text style={styles.userEmail}>email@example.com</Text>
+                <Text style={styles.userName}>{name}</Text>
+                <Text style={styles.userEmail}>{email}</Text>
             </View>
         </View>
         <FlatList

@@ -58,12 +58,9 @@ const keyboardHide =() => {
     }
 
     const takePhoto = async () => {
-        console.log('comment', comment);
-        console.log('location', location);
         if (camera) {
             const photo = await camera.takePictureAsync();
             setPhoto(photo.uri);
-            console.log('photo', photo)
 
         }
         let location = await Location.getCurrentPositionAsync({});
@@ -72,13 +69,11 @@ const keyboardHide =() => {
             longitude: location.coords.longitude,
         };
         setLocation(coords);
-        // console.log('photo', photo)
-        // console.log('location', location)
     };
 
     
     const sendPhoto = () => {
-        uploadPhotoToServer()
+        uploadPostToServer()
         navigation.navigate("DefaultScreen", {photo, comment, locationName, location});
         setLocation([]);
         setPhoto('');
@@ -99,8 +94,14 @@ const keyboardHide =() => {
 
         const prossesPhoto = await 
         getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
-        console.log('prossesPhoto', prossesPhoto)
+        return prossesPhoto
     };
+
+const uploadPostToServer = async () => {
+    const photo = await uploadPhotoToServer()
+    const docRef = await addDoc(collection(db, "posts"), {photo, comment, locationName, location,  name, userId});
+}
+
 
     const deletePhoto = () => {
         setPhoto('');

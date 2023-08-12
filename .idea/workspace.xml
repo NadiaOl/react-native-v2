@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="19735447-e3d5-40df-9679-cf1235947e09" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/auth/RegistrationScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/auth/RegistrationScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/main/CreatePostsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/main/CreatePostsScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/nested/DefaultScreenPosts.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/nested/DefaultScreenPosts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AwesomeProject/firebase/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/firebase/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AwesomeProject/Screens/nested/MapScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/Screens/nested/MapScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AwesomeProject/components/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/components/Main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/redux/auth/authOperations.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/redux/auth/authOperations.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AwesomeProject/redux/auth/authReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/AwesomeProject/redux/auth/authReducer.js" afterDir="false" />
     </list>
