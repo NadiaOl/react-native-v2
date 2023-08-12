@@ -6,7 +6,12 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
-import db from "../../firebase/config"
+import {db} from "../../firebase/config"
+import {app} from "../../firebase/config";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+const storage = getStorage();
 
 export default function CreatePostsScreen() {
     const [camera, setCamera] = useState(null);
@@ -58,6 +63,8 @@ const keyboardHide =() => {
         if (camera) {
             const photo = await camera.takePictureAsync();
             setPhoto(photo.uri);
+            console.log('photo', photo)
+
         }
         let location = await Location.getCurrentPositionAsync({});
         const coords = {
@@ -65,13 +72,13 @@ const keyboardHide =() => {
             longitude: location.coords.longitude,
         };
         setLocation(coords);
-        console.log('photo', photo)
-        console.log('location', location)
-
+        // console.log('photo', photo)
+        // console.log('location', location)
     };
 
+    
     const sendPhoto = () => {
-        uploadPostToServer()
+        uploadPhotoToServer()
         navigation.navigate("DefaultScreen", {photo, comment, locationName, location});
         setLocation([]);
         setPhoto('');
@@ -80,6 +87,21 @@ const keyboardHide =() => {
         setIsShowKeyboard(false);
     }
 
+    const uploadPhotoToServer = async () => {
+    
+        const uniquePostId = Date.now().toString();
+        const storageRef = ref(storage, `postImage/${uniquePostId}`);
+        const metadata = {
+            contentType: 'image/jpeg',
+        };
+    
+        const data = await uploadBytes(storageRef, photo, metadata);
+
+        const prossesPhoto = await 
+        getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
+        console.log('prossesPhoto', prossesPhoto)
+    };
+
     const deletePhoto = () => {
         setPhoto('');
         setLocation([]);
@@ -87,31 +109,6 @@ const keyboardHide =() => {
         setLocationName('');
         setIsShowKeyboard(false);
     }
-
-    const uploadPostToServer = async () => {
-        const photo = await uploadPhotoToServer();
-        const createPost = await db
-            .firestore()
-            .collection("posts")
-            .add({ photo, comment, locationName, location: location.coords, userId, name });
-        };
-    
-        const uploadPhotoToServer = async () => {
-        const response = await fetch(photo);
-        const file = await response.blob();
-    
-        const uniquePostId = Date.now().toString();
-    
-        await db.storage().ref(`postImage/${uniquePostId}`).put(file);
-    
-        const processedPhoto = await db
-            .storage()
-            .ref("postImage")
-            .child(uniquePostId)
-            .getDownloadURL();
-    
-        return processedPhoto;
-        };
 
 
     return (

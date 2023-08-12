@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const state = {
+export const state = {
     userId: null,
     nickName: null,
     stateChange: false,

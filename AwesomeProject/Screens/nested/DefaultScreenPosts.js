@@ -5,10 +5,10 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 
-const DefaultScreenPosts = ({route, navigation}) => {
+const DefaultScreenPosts = ({route, navigation, state}) => {
     const dispatch=useDispatch()
     
-    console.log('route.params', route.params)
+    console.log('state', state)
 
     const [posts, setPosts] = useState([])
 
@@ -18,7 +18,7 @@ const DefaultScreenPosts = ({route, navigation}) => {
     }
     }, [route.params]);
 
-    console.log("posts", posts);
+    // console.log("posts", posts);
 
 const signOut =()=> {
     dispatch(authSignOutUser());

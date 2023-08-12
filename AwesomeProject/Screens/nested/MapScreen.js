@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-// import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const MapScreen = ({navigation}) => (
   <View style={styles.container}>
-            {/* <View style={styles.header}>
+            <View style={styles.header}>
             <TouchableOpacity style={styles.logArrow} >
                 <Ionicons name="arrow-back-outline" size={24} onPress={() => navigation.goBack()} />
             </TouchableOpacity>
@@ -24,7 +24,7 @@ const MapScreen = ({navigation}) => (
         coordinate={{ latitude: 50.516339, longitude: 30.602185 }}
         title="travel photo"
       />
-    </MapView> */}
+    </MapView>
   </View>
 );
 
