@@ -7,7 +7,6 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import {db} from "../../firebase/config"
-import {app} from "../../firebase/config";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -61,7 +60,6 @@ const keyboardHide =() => {
         if (camera) {
             const photo = await camera.takePictureAsync();
             setPhoto(photo.uri);
-
         }
         let location = await Location.getCurrentPositionAsync({});
         const coords = {
@@ -83,17 +81,15 @@ const keyboardHide =() => {
     }
 
     const uploadPhotoToServer = async () => {
-    
         const uniquePostId = Date.now().toString();
         const storageRef = ref(storage, `postImage/${uniquePostId}`);
         const metadata = {
             contentType: 'image/jpeg',
         };
-    
         const data = await uploadBytes(storageRef, photo, metadata);
-
         const prossesPhoto = await 
         getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
+        console.log('prossesPhoto', prossesPhoto)
         return prossesPhoto
     };
 
@@ -102,6 +98,22 @@ const uploadPostToServer = async () => {
     const docRef = await addDoc(collection(db, "posts"), {photo, comment, locationName, location,  name, userId});
 }
 
+// const uploadPostToServer = () => {
+
+//     const uniquePostId = Date.now().toString();
+//     const storageRef = ref(storage, `postImage/${uniquePostId}`);
+//     const metadata = {
+//         contentType: 'image/jpeg',
+//     };
+//     const data = uploadBytes(storageRef, photo, metadata)
+//     .then(()=> {
+//         const prossesPhoto = getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
+//         return prossesPhoto
+//     })
+//     .then((prossesPhoto) => {
+//         const docRef = addDoc(collection(db, "posts"), {prossesPhoto, comment, locationName, location,  name, userId});
+//     })
+// }
 
     const deletePhoto = () => {
         setPhoto('');

@@ -61,7 +61,7 @@ const CommentsScreen = ({navigation, route}) => {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-        <View style={{...styles.container}}>
+        <View style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity style={styles.logArrow} >
                     <Ionicons name="arrow-back-outline" size={24} onPress={() => navigation.goBack()} />
@@ -75,8 +75,8 @@ const CommentsScreen = ({navigation, route}) => {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => (
                         <View style={styles.commentContainer}>
-                            <Text>{item.name}</Text>
-                            <Text>{item.comment}</Text>
+                            <Text style={styles.commentName}>{item.name}</Text>
+                            <Text style={styles.commentText}>{item.comment}</Text>
                             {/* <Text>{item.postDate}</Text> */}
                         </View>
                         )}
@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
         width: 390,
         height: "100%",
         backgroundColor: "white",
+        flex: 1,
+        paddingBottom: 40,
 
     },
     header: {    
@@ -140,8 +142,7 @@ const styles = StyleSheet.create({
         marginBottom: 32,
     },
     comments: {
-        display: "flex",
-        gap: 32,
+        paddingRight: 5,
     },
     commentContainer: {
         marginBottom: 32,
@@ -149,9 +150,16 @@ const styles = StyleSheet.create({
         gap: 16,
         flexDirection: "row",
         alignItems: "stretch",
-        // justifyContent: "space-between",
+
     },
 
+    commentText: {
+        backgroundColor: "#E8E8E8",
+        padding: 16,
+        flex: 1,
+        borderRadius: 6,
+        fontSize: 13,
+    },
 
     inputContainer: {
         display: "flex",
