@@ -146,11 +146,7 @@ const styles = StyleSheet.create({
         marginTop: 32,
         marginBottom: 32,
     },
-    comments: {
 
-        
-
-    },
     commentContainer: {
         marginBottom: 32,
         display: "flex",

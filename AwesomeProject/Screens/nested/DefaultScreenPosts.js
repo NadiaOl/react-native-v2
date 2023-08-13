@@ -58,7 +58,7 @@ return (
             <View style={{marginBottom: 10, justifyContent: "center",}}>
                 <Image
                     source={{ uri: item.photo }}
-                    style={{ width: 380, height: 240, backgroundColor: "#BDBDBD", borderRadius: 8 }}/>
+                    style={{ width: "100%", height: 240, backgroundColor: "#BDBDBD", borderRadius: 8 }}/>
                 <Text style={styles.descriptionText}>{item.comment}</Text>
                 <View style={styles.details}>
                     <TouchableOpacity style={styles.reactions} onPress={()=> navigation.navigate('Comments', {postId: item.id})}>
