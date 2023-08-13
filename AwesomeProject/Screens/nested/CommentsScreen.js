@@ -30,9 +30,10 @@ const CommentsScreen = ({navigation, route}) => {
     await addDoc(collection(docRef, "comments"), {
       comment,
       name,
-      postDate: new Date(),
+      postDate: new Date().toDateString(),
     });
     setComment("");
+    keyboardHide();
   };
 
   const getAllPosts = async () => {
@@ -70,14 +71,18 @@ const CommentsScreen = ({navigation, route}) => {
             </View>
             <View style={styles.content}>
                 <Image source={{ uri: photo }} style={styles.photo} />
-                <FlatList style={styles.comments}
+                <FlatList style={{...styles.comments, height: isShowKeyboard ? 0 : 270}}
                         data={allComments}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => (
                         <View style={styles.commentContainer}>
                             <Text style={styles.commentName}>{item.name}</Text>
-                            <Text style={styles.commentText}>{item.comment}</Text>
-                            {/* <Text>{item.postDate}</Text> */}
+                            <View style={styles.commentText}>
+                                <Text>{item.comment}</Text>
+                                <View style={styles.commentData}>    
+                                    <Text style={styles.data}>{item.postDate}</Text>
+                                </View>
+                            </View>
                         </View>
                         )}
                     />
@@ -107,10 +112,10 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto-Regular",
         padding: 16,
         width: 390,
-        height: "100%",
+        // height: 400,
         backgroundColor: "white",
         flex: 1,
-        paddingBottom: 40,
+        // paddingBottom: 60,
 
     },
     header: {    
@@ -142,7 +147,9 @@ const styles = StyleSheet.create({
         marginBottom: 32,
     },
     comments: {
-        paddingRight: 5,
+
+        
+
     },
     commentContainer: {
         marginBottom: 32,
@@ -160,16 +167,28 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         fontSize: 13,
     },
+    commentData:{
+        marginTop: 8,
+alignSelf: "flex-end",
+
+    },
+
+data: {
+    color: "#BDBDBD"
+},
 
     inputContainer: {
+        width: "100%",
         display: "flex",
+        borderWidth: 3,
+        borderColor: "#ffffff",
         flexDirection: "row",
         justifyContent: "space-between",
+
         alignItems: 'center',
         backgroundColor: "#E8E8E8",
         padding: 8,
         borderRadius: 50,
-
     },
 
     sendBtn: {

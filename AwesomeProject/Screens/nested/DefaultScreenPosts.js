@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from "react-native";
 import UserPhoto from '../../assets/img/Userphoto.png'
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 import {useSelector} from "react-redux";
 import { collection, onSnapshot } from "firebase/firestore";
 import {db} from "../../firebase/config"
 
-const DefaultScreenPosts = ({navigation}) => {
+const DefaultScreenPosts = ({navigation, route}) => {
     const dispatch=useDispatch()
     const {name, email} = useSelector((state) => state.auth)
-
-
     const [posts, setPosts] = useState([])
+
+
 
     const getAllPosts = async () => {
         const allPosts = await onSnapshot(
@@ -62,7 +62,7 @@ return (
                 <Text style={styles.descriptionText}>{item.comment}</Text>
                 <View style={styles.details}>
                     <TouchableOpacity style={styles.reactions} onPress={()=> navigation.navigate('Comments', {postId: item.id})}>
-                        <Ionicons name="chatbubble" size={25} style={styles.commentsIcon} />
+                        <FontAwesome name="comment" size={24} color="#FF6C00" />
                         <Text>8</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.location} onPress={()=> navigation.navigate('Map')}>
