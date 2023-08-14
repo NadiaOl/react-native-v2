@@ -81,16 +81,25 @@ const keyboardHide =() => {
     }
 
     const uploadPhotoToServer = async () => {
+
+    try {
+        const response = await fetch(photo)
+        console.log('response', response)
+        const file = response.blob()
+        console.log('file', file)
         const uniquePostId = Date.now().toString();
         const storageRef = ref(storage, `postImage/${uniquePostId}`);
         const metadata = {
             contentType: 'image/jpeg',
         };
-        const data = await uploadBytes(storageRef, photo, metadata);
+        const data = await uploadBytes(storageRef, file, metadata);
         const prossesPhoto = await 
         getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
         console.log('prossesPhoto', prossesPhoto)
         return prossesPhoto
+    } catch (error) {
+        console.log('error', error)
+    }
     };
 
 const uploadPostToServer = async () => {
@@ -105,15 +114,26 @@ const uploadPostToServer = async () => {
 //     const metadata = {
 //         contentType: 'image/jpeg',
 //     };
-//     const data = uploadBytes(storageRef, photo, metadata)
+
+//    fetch(photo)
+//    .then((response) => {
+//      const file = response.blob();
+//      return file
+//     })
+//     .then((file)=> {uploadBytes(storageRef, file, metadata)})
 //     .then(()=> {
-//         const prossesPhoto = getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
-//         return prossesPhoto
-//     })
+//             const prossesPhoto = getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
+//             return prossesPhoto
+//         })
 //     .then((prossesPhoto) => {
-//         const docRef = addDoc(collection(db, "posts"), {prossesPhoto, comment, locationName, location,  name, userId});
-//     })
-// }
+//             const docRef = addDoc(collection(db, "posts"), {prossesPhoto, comment, locationName, location,  name, userId});
+//         })
+//     }
+
+    // const blob = new Blob(photo);
+    // console.log('blob', blob)
+
+
 
     const deletePhoto = () => {
         setPhoto('');
