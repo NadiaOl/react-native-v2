@@ -9,12 +9,14 @@ import * as Location from "expo-location";
 import {db} from "../../firebase/config"
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import * as ImagePicker from 'expo-image-picker';
 
 const storage = getStorage();
 
 export default function CreatePostsScreen() {
     const [camera, setCamera] = useState(null);
     const [photo, setPhoto] = useState("");
+    const [photoUri, setPhotoUri] = useState("");
     const [location, setLocation] = useState([]);
     const [comment, setComment] = useState("");
     const [locationName, setLocationName] = useState("");
@@ -60,6 +62,7 @@ const keyboardHide =() => {
         if (camera) {
             const photo = await camera.takePictureAsync();
             setPhoto(photo.uri);
+            setPhotoUri(photo)
         }
         let location = await Location.getCurrentPositionAsync({});
         const coords = {
@@ -69,6 +72,18 @@ const keyboardHide =() => {
         setLocation(coords);
     };
 
+    const pickImageAsync = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+          console.log(result);
+        } else {
+          alert('You did not select any image.');
+        }
+      };
     
     const sendPhoto = () => {
         uploadPostToServer()
@@ -84,8 +99,7 @@ const keyboardHide =() => {
 
     try {
         const response = await fetch(photo)
-        console.log('response', response)
-        const file = response.blob()
+        const file = await response.blob()
         console.log('file', file)
         const uniquePostId = Date.now().toString();
         const storageRef = ref(storage, `postImage/${uniquePostId}`);
@@ -98,7 +112,7 @@ const keyboardHide =() => {
         console.log('prossesPhoto', prossesPhoto)
         return prossesPhoto
     } catch (error) {
-        console.log('error', error)
+        console.log('error', error.message)
     }
     };
 
@@ -165,7 +179,7 @@ const uploadPostToServer = async () => {
                 </TouchableOpacity>
             </Camera>
         </View>
-        <Text style={{...styles.editPhoto, marginBottom: isShowKeyboard ? 12 : 32}}>Редагувати фото</Text>
+        <Text style={{...styles.editPhoto, marginBottom: isShowKeyboard ? 12 : 32}} onPress={pickImageAsync}>Редагувати фото</Text>
 
         <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
