@@ -115,7 +115,7 @@ registrationSection: {
 
 
 title: {
-    fontFamily: "Roboto-Medium",
+    fontFamily: "RobotoMedium",
     fontWeight: 500,
     color: "#212121",
     marginBottom: 33,
@@ -128,7 +128,7 @@ marginHorizontal: 16,
 },
 
 input: {
-    fontFamily: "Roboto-Medium",
+    fontFamily: "RobotoMedium",
     height: 50,
     width: 343,
     marginHorizontal: 16,
@@ -145,7 +145,7 @@ inputView:{
 },
 
 showPassword: {
-    fontFamily: "Roboto-Medium",
+    fontFamily: "RobotoMedium",
     position: 'absolute',
     top: 15,
     right: 40,
@@ -163,13 +163,13 @@ button: {
 },
 
 buttonText: {
-    fontFamily: "Roboto-Medium",
+    fontFamily: "RobotoMedium",
     textAlign: "center",
     color: "#FFFFFF"
 },
 
 signIn: {
-    fontFamily: "Roboto-Medium",
+    fontFamily: "RobotoMedium",
     marginTop: 16,
     color: '#1B4371'
 },

@@ -5,32 +5,67 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 import {useSelector} from "react-redux";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query } from "firebase/firestore";
 import {db} from "../../firebase/config"
 
 const DefaultScreenPosts = ({navigation, route}) => {
     const dispatch=useDispatch()
     const {name, email} = useSelector((state) => state.auth)
     const [posts, setPosts] = useState([])
-
-
-
-    const getAllPosts = async () => {
-        const allPosts = await onSnapshot(
-            collection(db, "posts"), 
-            (data) => {
-                setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            },
-            (error) => {
-             console.log(error)
-            });
-    }
-
+    const [userPosts, setUserPosts] = useState([]);
+    const [commentsCount, setCommentsCount] = useState({})
 
     useEffect(() => {
-        getAllPosts()
-    }, [posts]);
-
+        if (route.params?.commentsCount) {
+            setCommentsCount((prev) => ({
+            ...prev,
+            [route.params.postId]: route.params.commentsCount,
+            }));
+        }
+        }, [route.params]);
+    
+        useEffect(() => {
+        getUserPosts();
+        return () => getUserPosts();
+    }, []);
+    
+    const getCommentsCount = async (postId) => {
+        try {
+            const commentsRef = collection(db, `posts/${postId}/comments`);
+            const queryRef = query(commentsRef);
+            const unsubscribe = onSnapshot(queryRef, (querySnapshot) => {
+            const commentsCount = querySnapshot.docs.length;
+            setCommentsCount((prev) => ({ ...prev, [postId]: commentsCount }));
+            });
+            return () => unsubscribe();
+        } catch (error) {
+            console.log(error);
+            setCommentsCount((prev) => ({ ...prev, [postId]: 0 }));
+        }
+    };
+    
+        const getUserPosts = async () => {
+        try {
+            const userPostsRef = collection(db, "posts");
+            const queryRef = query(userPostsRef);
+            const unsubscribe = onSnapshot(queryRef, (querySnapshot) => {
+            const userPosts = querySnapshot.docs.map((doc) => ({
+                ...doc.data(),
+                id: doc.id,
+            }));
+            setUserPosts(userPosts);
+    
+            if (userPosts && userPosts.length > 0) {
+                userPosts.forEach((post) => {
+                    getCommentsCount(post.id.toString());
+                });
+            }
+            });
+            return () => unsubscribe();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 const signOut =()=> {
     dispatch(authSignOutUser());
@@ -52,7 +87,7 @@ return (
             </View>
         </View>
         <FlatList
-        data={posts}
+        data={userPosts}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
             <View style={{marginBottom: 10, justifyContent: "center",}}>
@@ -61,9 +96,9 @@ return (
                     style={{ width: "100%", height: 240, backgroundColor: "#BDBDBD", borderRadius: 8 }}/>
                 <Text style={styles.descriptionText}>{item.comment}</Text>
                 <View style={styles.details}>
-                    <TouchableOpacity style={styles.reactions} onPress={()=> navigation.navigate('Comments', {postId: item.id})}>
+                    <TouchableOpacity style={styles.reactions} onPress={()=> navigation.navigate('Comments', {postId: item.id, photo: item.photo})}>
                         <FontAwesome name="comment" size={24} color="#FF6C00" />
-                        <Text>8</Text>
+                        <Text> {commentsCount[item.id] || 0}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.location} onPress={()=> navigation.navigate('Map')}>
                         <Ionicons name="location-outline" size={24} style={styles.logLocation} />

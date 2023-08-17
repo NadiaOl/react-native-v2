@@ -31,7 +31,7 @@ const MapScreen = ({navigation}) => (
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    fontFamily: "Roboto-Regular",
+    fontFamily: "RobotoRegular",
     padding: 16,
     width: 390,
     height: 760,

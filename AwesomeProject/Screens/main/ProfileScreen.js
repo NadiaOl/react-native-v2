@@ -23,31 +23,11 @@ import {
 } from "firebase/firestore";
 
 
-
 const ProfileScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
   const [commentsCount, setCommentsCount] = useState({});
-  const { userId, name, email } = useSelector((state) => state.auth);
-
-
-  const getAllPost = async () => {
-    try {
-      onSnapshot(collection(db, "posts"), (data) => {
-        const posts = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-        setPosts(posts);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getAllPost();
-    posts.forEach((post) => {
-      getCommentsCount(post.id);
-    });
-  }, []);
+  const { userId, name } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (route.params?.commentsCount) {
@@ -57,6 +37,11 @@ const ProfileScreen = ({ navigation, route }) => {
       }));
     }
   }, [route.params]);
+
+  useEffect(() => {
+    getUserPosts();
+    return () => getUserPosts();
+  }, []);
 
   const getCommentsCount = async (postId) => {
     try {
@@ -73,11 +58,6 @@ const ProfileScreen = ({ navigation, route }) => {
     }
   };
 
-  useEffect(() => {
-    getUserPosts();
-    return () => getUserPosts();
-  }, []);
-
   const getUserPosts = async () => {
     try {
       const userPostsRef = collection(db, "posts");
@@ -92,6 +72,8 @@ const ProfileScreen = ({ navigation, route }) => {
         if (userPosts && userPosts.length > 0) {
           userPosts.forEach((post) => {
             getCommentsCount(post.id.toString());
+            
+    console.log('commentsCount', commentsCount)
           });
         }
       });

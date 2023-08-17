@@ -9,58 +9,58 @@ import { doc, collection, addDoc, onSnapshot } from "firebase/firestore";
 
 const CommentsScreen = ({navigation, route}) => {
     const { postId, photo } = route.params;
-  const [comment, setComment] = useState("");
-  const [postDate, setPostDate] = useState("");
-  const [isShowKeyboard,setIsShowKeyboard]= useState(false)
-  const [allComments, setAllComments] = useState([]);
-  const [commentsCount, setCommentsCount] = useState(0);
-  const { name } = useSelector((state) => state.auth);
+    const [comment, setComment] = useState("");
+    const [isShowKeyboard,setIsShowKeyboard]= useState(false)
+    const [allComments, setAllComments] = useState([]);
+    const [commentsCount, setCommentsCount] = useState(0);
+    const { name } = useSelector((state) => state.auth);
 
-  useEffect(() => {
+    useEffect(() => {
     getAllPosts();
-  }, []);
-  
-  useEffect(() => {
-    navigation.setParams({ commentsCount: commentsCount });
-  }, [commentsCount]);
 
-  const createPost = async () => {
-    const docRef = await doc(db, "posts", postId);
+    }, []);
 
-    await addDoc(collection(docRef, "comments"), {
-      comment,
-      name,
-      postDate: new Date().toDateString(),
-    });
-    setComment("");
-    keyboardHide();
-  };
+    useEffect(() => {
+        navigation.setParams({ commentsCount: commentsCount });
+    }, [commentsCount]);
 
-  const getAllPosts = async () => {
+    const createPost = async () => {
+        const docRef = await doc(db, "posts", postId);
+
+        await addDoc(collection(docRef, "comments"), {
+            comment,
+            name,
+            postDate: new Date().toDateString(),
+        });
+        setComment("");
+        keyboardHide();
+    };
+
+    const getAllPosts = async () => {
     try {
-      const docRef = await doc(db, "posts", postId);
+        const docRef = await doc(db, "posts", postId);
 
-      onSnapshot(collection(docRef, "comments"), (data) =>
-        setAllComments(
-          data.docs.map((doc) => ({
-            ...doc.data(),
-          }))
-       )
-      );
-      console.log('data', docRef)
-      setCommentsCount(Number(allComments.length));
+        onSnapshot(collection(docRef, "comments"), (data) =>
+            setAllComments(
+            data.docs.map((doc) => ({
+                ...doc.data(),
+            }))
+            )
+        );
+
+        setCommentsCount(Number(allComments.length));
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  };
+    };
 
 
-  const keyboardHide =()=> {
-    Keyboard.dismiss();
-    setIsShowKeyboard(false);
-}
+    const keyboardHide =()=> {
+        Keyboard.dismiss();
+        setIsShowKeyboard(false);
+    }
 
-  return (
+    return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
         <View style={styles.container}>
             <View style={styles.header}>
@@ -109,7 +109,7 @@ const CommentsScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
     container: {
         position: "relative",
-        fontFamily: "Roboto-Regular",
+        fontFamily: "RobotoRegular",
         padding: 16,
         width: 390,
         backgroundColor: "white",

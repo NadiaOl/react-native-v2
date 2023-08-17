@@ -8,7 +8,7 @@ import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import {db} from "../../firebase/config"
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
 
 const storage = getStorage();
@@ -96,17 +96,30 @@ const keyboardHide =() => {
     }
 
     const uploadPhotoToServer = async () => {
-
     try {
-        const response = await fetch(photo)
-        const file = await response.blob()
-        console.log('file', file)
+
+        const uriToBlob = (photo) => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest()
+            xhr.onload = function () {
+            resolve(xhr.response)
+        }
+            xhr.onerror = function () {
+            reject(new Error('uriToBlob failed'))
+        }
+            xhr.responseType = 'blob'
+            xhr.open('GET', photo, true)
+            xhr.send(null)})}
+
+
+
         const uniquePostId = Date.now().toString();
         const storageRef = ref(storage, `postImage/${uniquePostId}`);
         const metadata = {
             contentType: 'image/jpeg',
         };
-        const data = await uploadBytes(storageRef, file, metadata);
+        const photoBlob = await uriToBlob(photo)
+        const data = await uploadBytesResumable(storageRef, photoBlob, metadata);
         const prossesPhoto = await 
         getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
         console.log('prossesPhoto', prossesPhoto)
@@ -118,7 +131,9 @@ const keyboardHide =() => {
 
 const uploadPostToServer = async () => {
     const photo = await uploadPhotoToServer()
+    console.log('photo', photo)
     const docRef = await addDoc(collection(db, "posts"), {photo, comment, locationName, location,  name, userId});
+    console.log('docRef', docRef)
 }
 
 // const uploadPostToServer = () => {
@@ -229,7 +244,7 @@ const uploadPostToServer = async () => {
 const styles = StyleSheet.create({
     container: {
         position: "relative",
-        fontFamily: "Roboto-Regular",
+        fontFamily: "RobotoRegular",
         padding: 16,
         paddingTop: 40,
         width: 390,
