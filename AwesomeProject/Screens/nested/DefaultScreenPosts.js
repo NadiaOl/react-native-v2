@@ -3,15 +3,14 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from "react
 import UserPhoto from '../../assets/img/Userphoto.png'
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { authSignOutUser } from "../../redux/auth/authOperations";
-import { useDispatch } from "react-redux";
-import {useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import { collection, onSnapshot, query } from "firebase/firestore";
 import {db} from "../../firebase/config"
 
 const DefaultScreenPosts = ({navigation, route}) => {
     const dispatch=useDispatch()
     const {name, email} = useSelector((state) => state.auth)
-    const [posts, setPosts] = useState([])
     const [userPosts, setUserPosts] = useState([]);
     const [commentsCount, setCommentsCount] = useState({})
 
@@ -140,7 +139,7 @@ logOut: {
     position: 'absolute',
     top: 2,
     right: 10,
-    color: '#BDBDBD'
+    color: '#BDBDBD',
 },
 userSection: {
     marginTop: 32,

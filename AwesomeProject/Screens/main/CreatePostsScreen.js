@@ -136,34 +136,6 @@ const uploadPostToServer = async () => {
     console.log('docRef', docRef)
 }
 
-// const uploadPostToServer = () => {
-
-//     const uniquePostId = Date.now().toString();
-//     const storageRef = ref(storage, `postImage/${uniquePostId}`);
-//     const metadata = {
-//         contentType: 'image/jpeg',
-//     };
-
-//    fetch(photo)
-//    .then((response) => {
-//      const file = response.blob();
-//      return file
-//     })
-//     .then((file)=> {uploadBytes(storageRef, file, metadata)})
-//     .then(()=> {
-//             const prossesPhoto = getDownloadURL(ref(storage, `postImage/${uniquePostId}`))
-//             return prossesPhoto
-//         })
-//     .then((prossesPhoto) => {
-//             const docRef = addDoc(collection(db, "posts"), {prossesPhoto, comment, locationName, location,  name, userId});
-//         })
-//     }
-
-    // const blob = new Blob(photo);
-    // console.log('blob', blob)
-
-
-
     const deletePhoto = () => {
         setPhoto('');
         setLocation([]);

@@ -1,30 +1,16 @@
 import {
-  StyleSheet,
-  View,
-  FlatList,
-  Image,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+  StyleSheet, View, FlatList, Image, Text, TouchableOpacity, ImageBackground } from "react-native";
 
 import { useEffect, useState } from "react";
-
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { authSignOutUser } from "../../redux/auth/authOperations";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-
 import {db} from "../../firebase/config";
-import {
-  collection,
-  onSnapshot,
-  where,
-  query,
-} from "firebase/firestore";
+import {collection, onSnapshot, where, query } from "firebase/firestore";
 
 
 const ProfileScreen = ({ navigation, route }) => {
-  const [posts, setPosts] = useState([]);
+  const dispatch=useDispatch()
   const [userPosts, setUserPosts] = useState([]);
   const [commentsCount, setCommentsCount] = useState({});
   const { userId, name } = useSelector((state) => state.auth);
@@ -73,7 +59,6 @@ const ProfileScreen = ({ navigation, route }) => {
           userPosts.forEach((post) => {
             getCommentsCount(post.id.toString());
             
-    console.log('commentsCount', commentsCount)
           });
         }
       });
@@ -82,6 +67,10 @@ const ProfileScreen = ({ navigation, route }) => {
       console.log(error);
     }
   };
+
+  const signOut =()=> {
+    dispatch(authSignOutUser());
+}
 
   return (
     <View style={styles.container}>
@@ -97,6 +86,9 @@ const ProfileScreen = ({ navigation, route }) => {
                 source={require("../../assets/img/Userphoto.png")}
               />
             </View>
+            <TouchableOpacity style={styles.logOut}>
+                <Ionicons name="log-out-outline" size={24}  onPress={signOut} />
+            </TouchableOpacity>
             <View style={styles.user}>
               <Text style={styles.name}>{name}</Text>
             </View>
@@ -175,6 +167,13 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "flex-end",
   },
+  logOut: {
+position: "absolute",
+top: -30,
+right: 5,
+color: '#BDBDBD',
+
+  },
   wrapper: {
     marginTop: 250,
     backgroundColor: "#FFFFFF",
@@ -185,6 +184,7 @@ const styles = StyleSheet.create({
   },
 
   userInfo: {
+    position: 'relative',
     flexDirection: "row",
     marginTop: 32,
     height: 100,
