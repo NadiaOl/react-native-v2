@@ -99,7 +99,7 @@ return (
                         <FontAwesome name="comment" size={24} color="#FF6C00" />
                         <Text> {commentsCount[item.id] || 0}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.location} onPress={()=> navigation.navigate('Map')}>
+                    <TouchableOpacity style={styles.location} onPress={()=> navigation.navigate('Map', {location: item.location})}>
                         <Ionicons name="location-outline" size={24} style={styles.logLocation} />
                         <Text style={styles.locationText}>{item.locationName}</Text>
                     </TouchableOpacity>

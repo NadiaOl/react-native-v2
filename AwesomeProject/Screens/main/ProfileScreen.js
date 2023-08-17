@@ -108,7 +108,7 @@ const ProfileScreen = ({ navigation, route }) => {
                       <TouchableOpacity
                         onPress={() =>
                           navigation.navigate("Comments", {
-                            postId: item.id,
+                            postId: item.id, photo: item.photo
                           })
                         }
                       >
@@ -122,9 +122,7 @@ const ProfileScreen = ({ navigation, route }) => {
                     <View style={styles.wrapperLocation}>
                       <TouchableOpacity
                         onPress={() =>
-                          navigation.navigate("Map", {
-                            location: item.location,
-                          })
+                          navigation.navigate("Map", {location: item.location})
                         }
                       >
                         <Ionicons
@@ -135,7 +133,7 @@ const ProfileScreen = ({ navigation, route }) => {
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() =>
-                          navigation.navigate("MapScreen", {
+                          navigation.navigate("Map", {
                             location: item.location,
                           })
                         }

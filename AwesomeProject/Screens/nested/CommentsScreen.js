@@ -65,7 +65,7 @@ const CommentsScreen = ({navigation, route}) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity style={styles.logArrow} >
-                    <Ionicons name="arrow-back-outline" size={24} onPress={() => navigation.navigate('DefaultScreen')} />
+                    <Ionicons name="arrow-back-outline" size={24} onPress={() => navigation.goBack()} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Коментарі</Text>
             </View>
